@@ -3,6 +3,7 @@ package it.cosenonjaviste;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class RealExchangeRateCalculator implements ExchangeRateCalculator {
 	private int attempts = 0;
 	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	
-	@Retryable
+	@Retryable(maxAttempts=10,backoff = @Backoff(delay = 10000,multiplier=2))
 	public Double getCurrentRate() {
 		
 		System.out.println("Calculating - Attempt " + attempts + " at " + sdf.format(new Date()));
