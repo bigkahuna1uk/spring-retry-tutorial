@@ -26,8 +26,8 @@ public class RealExchangeRateCalculator implements ExchangeRateCalculator {
 		
 		try {
 			HttpResponse<JsonNode> response = Unirest.get("http://rate-exchange.herokuapp.com/fetchRate")
-				.queryString("from", "USD")
-				.queryString("to","EUR")
+				.queryString("from", "EUR")
+				.queryString("to","USD")
 				.asJson();
 			
 			if(response.getStatus() == 200){

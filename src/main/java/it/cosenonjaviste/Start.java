@@ -11,11 +11,15 @@ public class Start
     	
     	ExchangeRateCalculator dummyRateCalculator = (ExchangeRateCalculator) context.getBean("dummyRateCalculator");
     	ExchangeRateCalculator advancedDummyRateCalculator = (ExchangeRateCalculator) context.getBean("advancedDummyRateCalculator");
+    	ExchangeRateCalculator realRateCalculator = (ExchangeRateCalculator) context.getBean("realRateCalculator");
     	
     	System.out.println("--- dummyRateCalculator ---");
     	System.out.println("Return value " + dummyRateCalculator.getCurrentRate());
     	
     	System.out.println("--- advancedDummyRateCalculator ---");
     	System.out.println("Return value " + advancedDummyRateCalculator.getCurrentRate());
+    	
+    	System.out.println("--- realRateCalculator ---");
+    	System.out.println("Return value " + realRateCalculator.getCurrentRate());
     }
 }
