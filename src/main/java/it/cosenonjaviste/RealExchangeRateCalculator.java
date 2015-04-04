@@ -19,7 +19,7 @@ public class RealExchangeRateCalculator implements ExchangeRateCalculator {
 	private int attempts = 0;
 	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	
-	@Retryable(maxAttempts=10,backoff = @Backoff(delay = 10000,multiplier=2))
+	@Retryable(maxAttempts=10,value=RuntimeException.class,backoff = @Backoff(delay = 10000,multiplier=2))
 	public Double getCurrentRate() {
 		
 		System.out.println("Calculating - Attempt " + attempts + " at " + sdf.format(new Date()));
@@ -31,10 +31,13 @@ public class RealExchangeRateCalculator implements ExchangeRateCalculator {
 				.queryString("to","USD")
 				.asJson();
 			
-			if(response.getStatus() == 200){
+			switch (response.getStatus()) {
+			case 200:
 				return response.getBody().getObject().getDouble("Rate");
-			}else{
+			case 503:
 				throw new RuntimeException("Server Response: " + response.getStatus());
+			default:
+				throw new IllegalStateException("Server not ready");
 			}
 		} catch (UnirestException e) {
 			throw new RuntimeException(e);
