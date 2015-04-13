@@ -16,6 +16,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 @Service
 public class RealExchangeRateCalculator implements ExchangeRateCalculator {
 	
+	private static final double BASE_EXCHANGE_RATE = 1.09;
 	private int attempts = 0;
 	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	
@@ -47,7 +48,7 @@ public class RealExchangeRateCalculator implements ExchangeRateCalculator {
 	@Recover
 	public Double recover(RuntimeException e){
 		System.out.println("Recovering - returning safe value");
-		return 1.09;
+		return BASE_EXCHANGE_RATE;
 	}
 
 }

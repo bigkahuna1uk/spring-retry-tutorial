@@ -11,10 +11,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdvancedDummyExchangeRateCalculator implements ExchangeRateCalculator {
 	
+	private static final double BASE_EXCHANGE_RATE = 1.09;
 	private int attempts = 0;
 	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	
-	@Retryable(maxAttempts=10,backoff = @Backoff(delay = 1000,multiplier=1.5))
+	@Retryable(maxAttempts=10,backoff = @Backoff(delay = 5000,multiplier=1.5))
 	public Double getCurrentRate(){
 		System.out.println("Calculating - Attempt " + attempts + " at " + sdf.format(new Date()));
 		attempts++;
@@ -25,6 +26,6 @@ public class AdvancedDummyExchangeRateCalculator implements ExchangeRateCalculat
 	@Recover
 	public Double recover(RuntimeException e){
 		System.out.println("Recovering - returning safe value");
-		return 1.09;
+		return BASE_EXCHANGE_RATE;
 	}
 }

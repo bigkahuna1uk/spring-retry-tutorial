@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 public class DummyExchangeRateCalculator implements ExchangeRateCalculator {
 	
 	private int attempts = 0;
+	private static final double BASE_EXCHANGE_RATE = 1.09;
+	
 	
 	@Retryable(value=RuntimeException.class)
 	public Double getCurrentRate(){
@@ -20,6 +22,6 @@ public class DummyExchangeRateCalculator implements ExchangeRateCalculator {
 	@Recover
 	public Double recover(RuntimeException e){
 		System.out.println("Recovering - returning safe value");
-		return 1.09;
+		return BASE_EXCHANGE_RATE;
 	}
 }
