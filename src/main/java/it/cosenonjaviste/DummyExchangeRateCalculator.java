@@ -10,7 +10,6 @@ public class DummyExchangeRateCalculator implements ExchangeRateCalculator {
 	private int attempts = 0;
 	private static final double BASE_EXCHANGE_RATE = 1.09;
 	
-	
 	@Retryable(value=RuntimeException.class)
 	public Double getCurrentRate(){
 		System.out.println("Calculating - Attempt " + attempts);
